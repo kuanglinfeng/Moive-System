@@ -1,32 +1,35 @@
 import "reflect-metadata"
-import { MovieModel } from "./db/index"
-import { Movie } from "./entities/Movie"
 import { MovieService } from "./services/MovieService"
-import { IMovie } from "./db/MovieSchema"
+import { Movie } from "./entities/Movie"
 
-const m: any = {
-  name: "flinn",
-  timeLong: 1,
-  types: ["xixi"],
-  areas: ["china"]
+function getRandom(min: number, max: number) {
+  const dec = max - min
+  return Math.floor(Math.random() * dec + min)
 }
 
-// const m: any = {
-//   name: "liulangdiqiu"
+// for (let i = 0; i < 100; i++) {
+//   const m = new Movie()
+//   m.name = "电影" + (i + 1)
+//   m.areas = ["中国大陆", "美国"]
+//   m.types = ["喜剧", "爱情"]
+//   m.isClassic = true
+//   m.timeLong = getRandom(70, 240)
+//   MovieService.add(m)
 // }
 
-// MovieService.add(m).then(res => {
-//   if (Array.isArray(res)) {
-//     console.log(res)
-//   } else {
-//     console.log(res._id)
-//   }
-// })
+const condition: any = {
+  page: 1,
+  limit: 5,
+  key: "10"
+}
 
-// MovieService.edit("5da2bc67bff38c283923af00", m).then(res => {
-//   console.log(res)
-// }).catch(err => console.log(err))
-
-// MovieService.delete("5da2bc67bff38c283923af00").then(() => console.log("删除成功"))
-
-MovieService.findById("5da2c61bf0b0e3324a6898d7").then((res: IMovie) => console.log(res.name))
+MovieService.find(condition).then(res => {
+  if (res.errors.length > 0) {
+    console.log(res.errors)
+  } else {
+    res.data.forEach(item => {
+      console.log(item.name)
+    })
+    console.log("总数：" + res.count)
+  }
+})
