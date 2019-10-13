@@ -1,18 +1,32 @@
 import "reflect-metadata"
-import { validate } from "class-validator"
+import { MovieModel } from "./db/index"
 import { Movie } from "./entities/Movie"
-import { plainToClass } from "class-transformer"
+import { MovieService } from "./services/MovieService"
+import { IMovie } from "./db/MovieSchema"
 
-const m: any = {};
-m.name = 1
-m.types = "1321"
-m.areas = ["中国大陆"]
-m.isClassic = true
-m.timeLong = 1
+const m: any = {
+  name: "flinn",
+  timeLong: 1,
+  types: ["xixi"],
+  areas: ["china"]
+}
 
-// 将字面量对象转换为Movie对象
-const movie = plainToClass(Movie, m as object)
-console.log(movie)
-validate(movie).then(errors => {
-  console.log(errors)
-})
+// const m: any = {
+//   name: "liulangdiqiu"
+// }
+
+// MovieService.add(m).then(res => {
+//   if (Array.isArray(res)) {
+//     console.log(res)
+//   } else {
+//     console.log(res._id)
+//   }
+// })
+
+// MovieService.edit("5da2bc67bff38c283923af00", m).then(res => {
+//   console.log(res)
+// }).catch(err => console.log(err))
+
+// MovieService.delete("5da2bc67bff38c283923af00").then(() => console.log("删除成功"))
+
+MovieService.findById("5da2c61bf0b0e3324a6898d7").then((res: IMovie) => console.log(res.name))

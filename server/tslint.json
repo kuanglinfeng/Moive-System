@@ -10,7 +10,10 @@
         "interface-name":true,
         "ordered-imports": false,
         "arrow-parens": false,
-        "semicolon": false
+        "semicolon": false,
+        "trailing-comma": false,
+        "object-literal-sort-keys": false,
+        "member-ordering": false
     },
     "rulesDirectory": []
 }

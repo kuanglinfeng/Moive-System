@@ -1,5 +1,5 @@
-import { IsNotEmpty, MinLength, ArrayMinSize, IsInt, Min, Max, IsArray } from "class-validator"
-import { Type } from "class-transformer"
+import { IsNotEmpty, MinLength, ArrayMinSize, IsInt, Min, Max, IsArray, validate } from "class-validator"
+import { Type, plainToClass } from "class-transformer"
 
 export class Movie {
   @IsNotEmpty({message: "电影名称不可以为空"})
@@ -42,4 +42,35 @@ export class Movie {
 
   @Type(() => String)
   public poster?: string
+
+  /**
+   * 验证的就是当前对象
+   * @param skipMissing 验证的时候是否跳过没有填写的属性
+   * @return 返回的是一个promise对象，当promise对象得到结果后返回的是一个string数组
+   */
+  public async validateThis(skipMissing = false): Promise<string[]> {
+    // skipUndefinedProperties
+    const errors = await validate(this, {
+      skipUndefinedProperties: skipMissing
+    })
+    const temp: string[][] = errors.map(item => {
+      return Object.values(item.constraints)
+    })
+    const res: string[] = []
+    temp.forEach(item => {
+      res.push(...item)
+    })
+    return res
+  }
+
+  /**
+   * 将一个平面对象转换为Movie对象
+   * @param plainObject 平面对象
+   */
+  public static transform(plainObject: object): Movie {
+    if (plainObject instanceof Movie) {
+      return plainObject
+    }
+    return plainToClass(Movie, plainObject)
+  }
 }

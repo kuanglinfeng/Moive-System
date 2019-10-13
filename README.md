@@ -52,5 +52,13 @@
 
 3. 导入`class-transformer`的时候，需要`import "reflect-metadata"`，因为前者依赖后者实现的
 
-第六节
+## 数据库
+
+>使用mongodb
+
+>数据库驱动：mongodb、mongoose对TS的支持不是太好
+
+>其它的数据库驱动：typeorm(完全使用TS编写，基于类，因此在类的属性上加一些装饰器就可以使用数据库)，但是它又对mongodb支持不好
+
+最终还是使用`mongoose`来实现数据库，安装：`yarn add mongoose`，并且安装它的声明文件：`yarn add -D @types/mongoose`
 
