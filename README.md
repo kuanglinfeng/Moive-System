@@ -62,3 +62,11 @@
 
 最终还是使用`mongoose`来实现数据库，安装：`yarn add mongoose`，并且安装它的声明文件：`yarn add -D @types/mongoose`
 
+## 实现后端api接口
+
+- `yarn add express`
+
+- `yarn add -D @types/express`
+
+第10节
+

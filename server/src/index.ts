@@ -1,35 +1,22 @@
 import "reflect-metadata"
 import { MovieService } from "./services/MovieService"
 import { Movie } from "./entities/Movie"
+import Express from "express"
+import MovieRouter from "./routes/movieRoute"
+import UploadRouter from "./routes/UploadRoute"
 
-function getRandom(min: number, max: number) {
-  const dec = max - min
-  return Math.floor(Math.random() * dec + min)
-}
+const app = Express()
 
-// for (let i = 0; i < 100; i++) {
-//   const m = new Movie()
-//   m.name = "电影" + (i + 1)
-//   m.areas = ["中国大陆", "美国"]
-//   m.types = ["喜剧", "爱情"]
-//   m.isClassic = true
-//   m.timeLong = getRandom(70, 240)
-//   MovieService.add(m)
-// }
+// 图片静态资源
+app.use("/upload", Express.static("public/upload"))
 
-const condition: any = {
-  page: 1,
-  limit: 5,
-  key: "10"
-}
+// 配置中间件，用于解析请求消息体中的json格式数据
+app.use(Express.json())
 
-MovieService.find(condition).then(res => {
-  if (res.errors.length > 0) {
-    console.log(res.errors)
-  } else {
-    res.data.forEach(item => {
-      console.log(item.name)
-    })
-    console.log("总数：" + res.count)
-  }
-})
+// 使用postman测试接口
+app.use("/api/movie", MovieRouter)
+// 文件上传
+// 通常情况下，服务器会提供一个统一的api接口，用于处理上传的文件
+app.use("/api/upload", UploadRouter)
+
+app.listen(3000)
