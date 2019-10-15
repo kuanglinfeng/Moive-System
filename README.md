@@ -68,5 +68,22 @@
 
 - `yarn add -D @types/express`
 
-第10节
+## React
 
+react脚手架：
+
+create-react-app
+
+nextjs
+
+umijs
+
+使用create-react-app搭建工程
+
+先开发客户端的api请求功能
+
+有的时候，服务端和客户端会共用一个类型，如果要处理此处的重复代码问题，最佳做法是自行使用webpack搭建工程
+
+客户端：localhost:3001，请求/api/movie,最终请求的地址是：http://localhost:3001/api/movie
+
+可以使用代理：`"proxy": "http://localhost:3000"`
