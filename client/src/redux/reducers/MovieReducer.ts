@@ -1,5 +1,7 @@
 import { IMovie } from '../../services/MovieService'
 import { ISearchCondition } from '../../services/CommonTypes'
+import { MovieActions, SaveMoviesAction, SetConditionAction, SetLoadingAction, DeleteAction } from '../actions/MovieAction'
+import { Reducer } from 'react'
 
 // 让ISearchCondition接口里的类型都变为必填的 再赋给新类型
 export type IMovieCondition = Required<ISearchCondition>
@@ -27,4 +29,77 @@ export interface IMovieState {
    * 是否正在加载数据
    */
   isLoading: boolean
+}
+
+
+const defaultState: IMovieState = {
+  data: [],
+  condition: {
+    page: 1,
+    limit: 10,
+    key: ''
+  },
+  total: 0,
+  isLoading: false
+}
+
+// function saveMovie(state: IMovieState, action: SaveMoviesAction): IMovieState {
+
+// }
+
+type MovieReducer<A> = Reducer<IMovieState, A>
+
+const saveMovie: MovieReducer<SaveMoviesAction> = function (state, action) {
+  return {
+     ...state,
+     data: action.payload.movies,
+     total: action.payload.total
+  }
+}
+
+const setCondition: MovieReducer<SetConditionAction> = function (state, action) {
+  return {
+     ...state,
+    condition: {
+      ...state.condition,
+      ...action.payload
+    }
+  }
+}
+
+const setLoading: MovieReducer<SetLoadingAction> = function (state, action) {
+  return {
+     ...state,
+    isLoading: action.payload
+  }
+}
+
+const deleteMovie: MovieReducer<DeleteAction> = function (state, action) {
+  return {
+    ...state,
+    data: state.data.filter(m => m._id !== action.payload),
+    total: state.total - 1
+  }
+}
+
+
+
+export default function (state: IMovieState = defaultState, action: MovieActions): IMovieState {
+  // 可辨识的联合
+  switch (action.type) {
+    case 'movie_delete': 
+      deleteMovie(state, action)
+      break
+    case  'movie_save': 
+      saveMovie(state, action)
+      break
+    case 'movie_setCondition': 
+      setCondition(state, action)
+      break
+    case 'movie_setLoading': 
+      setLoading(state, action)
+      break
+    default: 
+      break
+  }
 }
