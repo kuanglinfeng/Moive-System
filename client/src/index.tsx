@@ -3,6 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { MovieService } from './services/MovieService';
+import { store } from './redux/store'
+import MovieAction from './redux/actions/MovieAction';
+
+
+
+store.dispatch(MovieAction.setLoadingAction(true))
+
+store.dispatch(MovieAction.setConditionAction({
+  page: 20
+}))
+
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
@@ -16,10 +27,10 @@ ReactDOM.render(<App />, document.getElementById('root'));
 //   isComing: true
 // }).then(data => console.log(data))
 
-MovieService.getMovies({
+// MovieService.getMovies({
 
-}).then(movies => {
-  movies.data.forEach(m => {
-    console.log(m.name, m.types)
-  })
-})
+// }).then(movies => {
+//   movies.data.forEach(m => {
+//     console.log(m.name, m.types)
+//   })
+// })

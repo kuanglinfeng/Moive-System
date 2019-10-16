@@ -87,3 +87,5 @@ umijs
 客户端：localhost:3001，请求/api/movie,最终请求的地址是：http://localhost:3001/api/movie
 
 可以使用代理：`"proxy": "http://localhost:3000"`
+
+13节

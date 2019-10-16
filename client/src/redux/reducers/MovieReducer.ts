@@ -88,18 +88,14 @@ export default function (state: IMovieState = defaultState, action: MovieActions
   // 可辨识的联合
   switch (action.type) {
     case 'movie_delete': 
-      deleteMovie(state, action)
-      break
+      return deleteMovie(state, action)
     case  'movie_save': 
-      saveMovie(state, action)
-      break
+      return saveMovie(state, action)
     case 'movie_setCondition': 
-      setCondition(state, action)
-      break
+      return setCondition(state, action)
     case 'movie_setLoading': 
-      setLoading(state, action)
-      break
+      return setLoading(state, action)
     default: 
-      break
+      return state
   }
 }
