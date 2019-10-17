@@ -29,6 +29,11 @@ export interface IMovieState {
    * 是否正在加载数据
    */
   isLoading: boolean
+
+  /**
+   * 总页数
+   */
+  totalPage: number
 }
 
 
@@ -40,7 +45,8 @@ const defaultState: IMovieState = {
     key: ''
   },
   total: 0,
-  isLoading: false
+  isLoading: false,
+  totalPage: 0
 }
 
 // function saveMovie(state: IMovieState, action: SaveMoviesAction): IMovieState {
@@ -53,18 +59,21 @@ const saveMovie: MovieReducer<SaveMoviesAction> = function (state, action) {
   return {
      ...state,
      data: action.payload.movies,
-     total: action.payload.total
+     total: action.payload.total,
+     totalPage: Math.ceil(action.payload.total / state.condition.limit)
   }
 }
 
 const setCondition: MovieReducer<SetConditionAction> = function (state, action) {
-  return {
-     ...state,
+  const newState = {
+    ...state,
     condition: {
       ...state.condition,
       ...action.payload
     }
   }
+  newState.totalPage = Math.ceil(newState.total / newState.condition.limit)
+  return newState
 }
 
 const setLoading: MovieReducer<SetLoadingAction> = function (state, action) {
@@ -78,7 +87,8 @@ const deleteMovie: MovieReducer<DeleteAction> = function (state, action) {
   return {
     ...state,
     data: state.data.filter(m => m._id !== action.payload),
-    total: state.total - 1
+    total: state.total - 1,
+    totalPage: Math.ceil((state.total - 1) / state.condition.limit)
   }
 }
 

@@ -6,13 +6,19 @@ import { MovieService } from './services/MovieService';
 import { store } from './redux/store'
 import MovieAction from './redux/actions/MovieAction';
 
+store.dispatch(MovieAction.fetchMovies({
+  page: 2
+})).then(() => {
+  store.dispatch(MovieAction.deleteAction("5da2cdb5723c1d37c40c204c"))
+
+})
 
 
-store.dispatch(MovieAction.setLoadingAction(true))
+// store.dispatch(MovieAction.setLoadingAction(true))
 
-store.dispatch(MovieAction.setConditionAction({
-  page: 20
-}))
+// store.dispatch(MovieAction.setConditionAction({
+//   page: 20
+// }))
 
 
 ReactDOM.render(<App />, document.getElementById('root'));
