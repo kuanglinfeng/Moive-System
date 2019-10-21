@@ -1,6 +1,6 @@
 import { IMovie } from '../../services/MovieService'
 import { ISearchCondition } from '../../services/CommonTypes'
-import { MovieActions, SaveMoviesAction, SetConditionAction, SetLoadingAction, DeleteAction } from '../actions/MovieAction'
+import { MovieActions, SaveMoviesAction, SetConditionAction, SetLoadingAction, DeleteAction, MovieChangeSwitchAction } from '../actions/MovieAction'
 import { Reducer } from 'react'
 
 // 让ISearchCondition接口里的类型都变为必填的 再赋给新类型
@@ -92,6 +92,30 @@ const deleteMovie: MovieReducer<DeleteAction> = function (state, action) {
   }
 }
 
+const changeSwitch: MovieReducer<MovieChangeSwitchAction> = function (state, action) {
+
+  // 1.根据id找到对象
+  const movie = state.data.find(item => item._id === action.payload.id)
+  if (!movie) {
+    return state
+  }
+  // 2. 对象克隆
+  const newMovie = {...movie}
+  newMovie[action.payload.type] = action.payload.newVal
+  // 3. 将对象重新放入到数组
+  const newData = state.data.map(item => {
+    if (item._id === action.payload.id) {
+      return newMovie
+    } else {
+      return item
+    }
+  })
+
+  return {
+    ...state,
+    data: newData
+  }
+}
 
 
 export default function (state: IMovieState = defaultState, action: MovieActions): IMovieState {
@@ -105,6 +129,8 @@ export default function (state: IMovieState = defaultState, action: MovieActions
       return setCondition(state, action)
     case 'movie_setLoading': 
       return setLoading(state, action)
+    case 'movie_switch':
+      return changeSwitch(state, action)
     default: 
       return state
   }

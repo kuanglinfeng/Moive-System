@@ -17,7 +17,10 @@ function mapDispatchToProps(dispatch:Dispatch<any>): IMovieTableEvents {
         limit: 10,
         key: ''
       }))
-    }
+    },
+    onSwitchChange(type, newState, id) {
+      dispatch(MovieAction.changeSwitch(type, newState, id))
+    } 
   }
 }
 
