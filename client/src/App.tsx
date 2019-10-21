@@ -1,13 +1,17 @@
 import React from 'react';
 import _Layout from './pages/Layout'
 import { BrowserRouter, Route } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
 
-const App: React.FC = () => {
-  return (
+
+const App: React.FC = () => (
+  <Provider store={store}>
     <BrowserRouter>
       <Route path='/' component={_Layout}></Route>
     </BrowserRouter>
-  )
-}
+  </Provider>
+)
+
 
 export default App;

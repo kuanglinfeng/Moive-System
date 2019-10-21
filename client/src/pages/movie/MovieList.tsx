@@ -1,10 +1,29 @@
-import React from 'react'
+import MovieTable, { IMovieTableEvents } from '../../component/MovieTable'
+import { connect } from 'react-redux'
+import { IRootState } from '../../redux/reducers/RootReducer'
+import { Dispatch } from 'react'
+import MovieAction, { MovieActions } from '../../redux/actions/MovieAction'
+import { IMovieState } from '../../redux/reducers/MovieReducer'
 
-export default class extends React.Component {
-  render() {
-    return (
-      <h1>欢迎使用电影列表页</h1>
-    )
+function mapStateToProps(state: IRootState): IMovieState {
+  return state.movie
+}
+
+function mapDispatchToProps(dispatch:Dispatch<any>): IMovieTableEvents {
+  return {
+    onLoad() {
+      dispatch(MovieAction.fetchMovies({
+        page: 1,
+        limit: 10,
+        key: ''
+      }))
+    }
   }
 }
+
+const HOC = connect(mapStateToProps, mapDispatchToProps)
+
+const MovieContainer = HOC(MovieTable)
+
+export default MovieContainer
 
